@@ -32,7 +32,9 @@ def uav(request, *args, **kwargs):
             uav = models.UAV.objects.get(id=params.get("id"))
             serializer = serializers.UavSerializer(uav)
             return RestResponse.Response(serializer.data)
-        except:
+        except Exception as e:
+            if isinstance(e, models.UAV.DoesNotExist):
+                return RestResponse.Response({"message": "UAV not found."})
             #list all
             uavs = models.UAV.objects.all()
             serializer = serializers.UavSerializer(uavs, many=True)
@@ -60,7 +62,10 @@ def uav(request, *args, **kwargs):
 
     #delete can be used for deleting existing
     elif request.method == "DELETE":
-        uav = models.UAV.objects.get(id=params.get("id"))
+        try:
+            uav = models.UAV.objects.get(id=params.get("id"))
+        except:
+            return RestResponse.Response({"message": "UAV not found."})
         uav.delete()
         return RestResponse.Response({"message": "UAV deleted."})
 
@@ -132,8 +137,9 @@ def rent(request, *args, **kwargs):
                 rent = models.Rent.objects.get(id=params.get("id"))
                 serializer = serializers.RentSerializer(rent)
                 return RestResponse.Response(serializer.data)
-            except:
-
+            except Exception as e:
+                if isinstance(e, models.Rent.DoesNotExist):
+                    return RestResponse.Response({"message": "Rent not found."})
                 rents = models.Rent.objects.all()
                 serializer = serializers.RentSerializer(rents, many=True)
                 return RestResponse.Response(serializer.data)
