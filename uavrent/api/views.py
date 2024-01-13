@@ -41,7 +41,7 @@ def uav(request, *args, **kwargs):
     #post can be used for creating new
     elif request.method == "POST":
         data = request.data
-        serializer = serializers.UavSerializer(data=data)
+        serializer = serializers.UavSerializerWithCategoryAsPrimaryKey(data=data)
         if serializer.is_valid():
             serializer.save()
             return RestResponse.Response(serializer.data)

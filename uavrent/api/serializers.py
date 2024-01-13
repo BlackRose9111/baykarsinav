@@ -9,6 +9,10 @@ class UavSerializer(serializers.ModelSerializer):
         model = models.UAV
         fields = '__all__'
 
+class UavSerializerWithCategoryAsPrimaryKey(serializers.ModelSerializer):
+        class Meta:
+            model = models.UAV
+            fields = '__all__'
 
 class UavCategorySerializer(serializers.ModelSerializer):
     class Meta:
