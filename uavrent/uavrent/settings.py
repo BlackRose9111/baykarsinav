@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'api',
-    'frontend', # frontend is an application in the same django project as the api but while coding the frontend it will treat the backend as if it is a completely different project and that the front end has no direct access to the database. This project is meant to be a demonstration
+    'frontend', # frontend is only for showing simple information about the project
+
 
 ]
 
@@ -56,11 +57,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
 
+
 ]
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
-    ]
+    ],
+
 }
 
 ROOT_URLCONF = 'uavrent.urls'
