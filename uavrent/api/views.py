@@ -111,6 +111,15 @@ def uav_category(request, *args, **kwargs):
     else:
         return RestResponse.Response({"message": "Method not allowed."})
 
+@api_view(["GET"])
+def search_uav(request, *args, **kwargs):
+    #model, manufacturer, category, price. We query using AND logic, as in all parameters must be met. All parameters are optional, however.
+    params = request.GET
+    print(params)
+    uavs = models.UAV.objects.filter()
+    return RestResponse.Response({"message": "Not implemented yet."})
+
+
 
 #We can use Match Case to replace the if-else statements if we fancy and if we are using Python 3.10
 @api_view(["GET", "POST", "PUT", "DELETE"])
