@@ -41,8 +41,6 @@ def uav(request, *args, **kwargs):
     #post can be used for creating new
     elif request.method == "POST":
         data = request.data
-        data["category"] = int(data["category"])
-        print(data)
         serializer = serializers.UavSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
