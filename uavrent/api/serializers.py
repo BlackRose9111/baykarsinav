@@ -22,8 +22,8 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', "email"]
 
 class RentSerializer(serializers.ModelSerializer):
-    renter  = UserSerializer(many=False, read_only=True)
-    uav = UavSerializer(many=False, read_only=True)
+    renter  = UserSerializer(many=False)
+    uav = UavSerializer(many=False)
     class Meta:
         model = models.Rent
         fields = '__all__'
