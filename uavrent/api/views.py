@@ -42,8 +42,6 @@ def uav(request, *args, **kwargs):
     elif request.method == "POST":
         data = request.data
         data["category"] = int(data["category"])
-        uav_category = models.UAVCategory.objects.get(id=data["category"])
-        data["category"] = uav_category
         print(data)
         serializer = serializers.UavSerializer(data=data)
         if serializer.is_valid():
