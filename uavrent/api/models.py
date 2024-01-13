@@ -26,7 +26,7 @@ class Rent(models.Model):
     #renter will use the default user model
     renter = models.ForeignKey('auth.User', on_delete=models.CASCADE)
     start_date = models.DateField()
-    end_date = models.DateField()
+    end_date = models.DateTimeField()
 
     def __str__(self):
         return self.uav.name + " rented by " + self.renter.username

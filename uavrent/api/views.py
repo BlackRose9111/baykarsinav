@@ -161,6 +161,8 @@ def rent(request, *args, **kwargs):
 
 
 
+
+
 @api_view(["GET"])
 def user(request, id : int):
     #we only get one user by id
