@@ -25,7 +25,7 @@ class Rent(models.Model):
     uav = models.ForeignKey(UAV, on_delete=models.CASCADE)
     #renter will use the default user model
     renter = models.ForeignKey('auth.User', on_delete=models.CASCADE)
-    start_date = models.DateField()
+    start_date = models.DateTimeField()
     end_date = models.DateTimeField()
 
     def __str__(self):
