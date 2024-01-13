@@ -197,6 +197,21 @@ def get_my_rentals(request):
     return RestResponse.Response(serializer.data)
 
 
+@api_view(["GET"])
+def get_my_user(request):
+    #find user from the auth toke
+    token = request.headers.get("Authorization")
+    if token is None:
+        return RestResponse.Response({"message": "Not authorized."})
+    user_id = auth.extract_user(token)
+    if user_id is None:
+        return RestResponse.Response({"message": "Not authorized."})
+    user = User.objects.get(id=user_id)
+    serializer = serializers.UserSerializer(user)
+    return RestResponse.Response(serializer.data)
+
+
+
 
 
 

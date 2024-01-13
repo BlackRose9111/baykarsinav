@@ -13,5 +13,6 @@ urlpatterns = [
     path("test/", views.get_all, name="test"),
     path("register/", views.register, name="register"),
     path("login/", views.login, name="login"),
+    path("getmyuser/", views.get_my_user, name="get_my_user"),
 
 ]

@@ -17,7 +17,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         #default user model
         model = User
-        fields = ['id', 'username']
+        fields = ['id', 'username', "email"]
 
 class RentSerializer(serializers.ModelSerializer):
     renter  = UserSerializer(many=False, read_only=True)
