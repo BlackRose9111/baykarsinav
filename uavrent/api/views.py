@@ -50,7 +50,7 @@ def uav(request, *args, **kwargs):
 
     #put can be used for updating existing
     elif request.method == "PUT":
-        uav = models.UAV.objects.get(id=kwargs.get("id"))
+        uav = models.UAV.objects.get(id=params.get("id"))
         serializer = serializers.UavSerializer(uav, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -60,7 +60,7 @@ def uav(request, *args, **kwargs):
 
     #delete can be used for deleting existing
     elif request.method == "DELETE":
-        uav = models.UAV.objects.get(id=kwargs.get("id"))
+        uav = models.UAV.objects.get(id=params.get("id"))
         uav.delete()
         return RestResponse.Response({"message": "UAV deleted."})
 
@@ -145,7 +145,7 @@ def rent(request, *args, **kwargs):
             else:
                 return RestResponse.Response(serializer.errors)
         case "PUT":
-            rent = models.Rent.objects.get(id=kwargs.get("id"))
+            rent = models.Rent.objects.get(id=params.get("id"))
             serializer = serializers.RentSerializer(rent, data=request.data)
             if serializer.is_valid():
                 serializer.save()
@@ -153,7 +153,7 @@ def rent(request, *args, **kwargs):
             else:
                 return RestResponse.Response(serializer.errors)
         case "DELETE":
-            rent = models.Rent.objects.get(id=kwargs.get("id"))
+            rent = models.Rent.objects.get(id=params.get("id"))
             rent.delete()
             return RestResponse.Response({"message": "Rent deleted."})
         case _:
