@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'api',
-    'frontend',
+    'frontend', # frontend is an application in the same django project as the api but while coding the frontend it will treat the backend as if it is a completely different project and that the front end has no direct access to the database. This project is meant to be a demonstration
 
 ]
 
