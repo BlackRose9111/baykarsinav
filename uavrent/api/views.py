@@ -32,9 +32,8 @@ def uav(request, *args, **kwargs):
             uav = models.UAV.objects.get(id=params.get("id"))
             serializer = serializers.UavSerializer(uav)
             return RestResponse.Response(serializer.data)
-        except Exception as e:
-            if isinstance(e, models.UAV.DoesNotExist):
-                return RestResponse.Response({"message": "UAV not found."})
+        except:
+
             #list all
             uavs = models.UAV.objects.all()
             serializer = serializers.UavSerializer(uavs, many=True)
@@ -138,8 +137,6 @@ def rent(request, *args, **kwargs):
                 serializer = serializers.RentSerializer(rent)
                 return RestResponse.Response(serializer.data)
             except Exception as e:
-                if isinstance(e, models.Rent.DoesNotExist):
-                    return RestResponse.Response({"message": "Rent not found."})
                 rents = models.Rent.objects.all()
                 serializer = serializers.RentSerializer(rents, many=True)
                 return RestResponse.Response(serializer.data)
