@@ -214,7 +214,10 @@ def user(request):
 
 @api_view(["POST"])
 def register(request):
-    serializer = serializers.UserSerializer(data=request.data)
+    from django.contrib.auth.hashers import make_password
+    data = request.data
+    data["password"] = make_password(data.get("password"))
+    serializer = serializers.UserSerializer(data=data)
     if serializer.is_valid():
         serializer.save()
         return RestResponse.Response(serializer.data)
