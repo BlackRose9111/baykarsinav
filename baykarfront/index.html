@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Homepage</title>
+    <script>
+      localStorage.getItem("token");
+        if (localStorage.getItem("token") == null) {
+            window.location.href = "/pages/loginPage/loginPage.html";
+        }
+        else {
+            window.location.href = "/pages/ihaYonetimi/ihaYonetimi.html";
+        }
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

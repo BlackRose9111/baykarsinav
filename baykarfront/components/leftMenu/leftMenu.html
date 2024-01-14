@@ -1,0 +1,41 @@
+
+
+<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px; height: 100vh;">
+    <a href="/" class="d-flex align-items-center justify-content-center mb-3 mb-md-0 text-white text-decoration-none">
+      
+      <span class="fs-4">Baykar</span>
+    </a>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+      
+      <li>
+        <a href="/pages/ihaYonetimi/ihaYonetimi.html" class="nav-link text-white ihaYonetimi">
+          
+         İha Yönetimi
+        </a>
+      </li>
+      <li>
+        <a href="/pages/kiralananIhalar/kiralananIhalar.html" class="nav-link text-white kiralananIhalar">
+          
+          
+          Kiralanan İhalar
+        </a>
+      </li>
+      
+    </ul>
+    <hr>
+    <!-- logout button -->
+    <button  class="btn btn-danger" onclick="logout()">
+      
+        Çıkış Yap
+      
+    </button>
+
+    <script>
+      function logout() {
+        localStorage.removeItem("token");
+        window.location.href = "/pages/loginPage/loginPage.html";
+      }
+    </script>
+    
+  </div>

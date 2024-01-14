@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./registerPage.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+  <title>Document</title>
+</head>
+<script>
+  function checkPasswords() {
+    // Get password values from the input fields
+    var password1 = document.getElementById('password1').value;
+    var password2 = document.getElementById('password2').value;
+
+    // Check if passwords match
+    if (password1 === password2) {
+
+    } else {
+      alert('Şifreler eşleşmiyor lütfen tekrar deneyiniz.');
+    }
+  }
+</script>
+
+<body>
+  <div class="container">
+    <div class="title">Üye Ol</div>
+    <form action="#">
+      <div class="userdetails">
+
+        <div class="inputbox">
+          <span class="details">Kullanıcı Adı</span>
+          <input type="text" name="username" required>
+        </div>
+        <div class="inputbox">
+          <span class="details">Email</span>
+          <input type="email" name="email" required>
+        </div>
+
+        <div class="inputbox">
+          <span class="details">Şifre</span>
+          <input type="password" id="password1" required>
+        </div>
+        <div class="inputbox">
+          <span class="details">Şifreyi Onayla</span>
+          <input type="password" id="password2" name="password" required>
+        </div>
+
+      </div>
+
+      <div class="button">
+        <input type="button" id="registerButton" onclick="checkPasswords()" value="Üye Ol">
+      </div>
+    </form>
+    <label for="">
+      Hesabınız var mı? <a href="../loginPage/loginPage.html">Giriş Yap</a>
+    </label>
+  </div>
+  <script>
+
+
+
+    $('#registerButton').click(function () {
+      var username = $('input[name="username"]').val();
+      var email = $('input[name="email"]').val();
+      var password = $('input[name="password"]').val();
+
+      $.ajax({
+        type: "POST",
+        url: "http://3.127.53.229:8000/api/register/",
+        contentType: "application/json",
+        data: JSON.stringify({ username: username, email: email, password: password }),
+        success: function (data) {
+          console.log(data);
+          if (data.message == "success") {
+            Swal.fire({
+              icon: "success",
+              title: "Başarılı",
+              text: "Kayıt işlemi başarılı",
+            });
+             window.location.href = "../loginPage/loginPage.html";
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "Hata",
+              text: "Kayıt işlemi başarısız",
+            });
+          }
+        },
+      });
+    });
+
+  </script>
+</body>
+
+</html>

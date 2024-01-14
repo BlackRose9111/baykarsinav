@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+   <script src="https://example.com/fontawesome/v6.5.1/js/all.js" data-auto-replace-svg="nest"></script>
+
+
+
+   <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+   <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+   <script src="kiralananIhalar.js"></script>
+
+   <title>Kİralanan İhalar</title>
+
+</head>
+
+<body>
+   <div class="d-flex">
+      <div class="leftMenu"></div>
+      <div class="content w-100 p-3">
+         <table class="table table-striped" id="ihalarTable">
+            <thead>
+               <tr>
+                  <th scope="col">İha Adı</th>
+                  <th scope="col">İha Modeli</th>
+                  <th scope="col">Kiralayan</th>
+                  <th scope="col">Başlangıç Tarihi</th>
+                  <th scope="col">Bitiş Tarihi</th>
+                  <th scope="col">Sil</th>
+                  <th scope="col">Düzenle</th>
+               </tr>
+
+            </thead>
+            <tbody>
+
+            </tbody>
+         </table>
+      </div>
+   </div>
+
+   <div class="modal fade" id="kiralaModal" tabindex="-1" aria-labelledby="kiralaModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h1 class="modal-title fs-5" id="kiralaModalLabel">İHA Kirala</h1>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               <form id="rentForm" action="">
+                  <div class="form-group">
+                     <label for="tarih">Başlangıç Tarihi:</label>
+                     <div class="input-group date" data-provide="datepicker">
+                        <input id="startDate" type="datetime-local" name="start_date" />
+                        <div class="input-group-addon">
+                           <span class="glyphicon glyphicon-th"></span>
+                        </div>
+                     </div>
+                  </div>
+
+                  <div class="form-group">
+                     <label for="tarih">Bitiş Tarihi:</label>
+                     <div class="input-group date" data-provide="datepicker">
+                        <input id="endDate" type="datetime-local" name="end_date" />
+                        <div class="input-group-addon">
+                           <span class="glyphicon glyphicon-th"></span>
+                        </div>
+                     </div>
+                  </div>
+                  <br>
+               </form>
+
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                  Kapat
+               </button>
+               <button type="button" id="kiralaModalSubmitBtn" class="btn btn-primary">Düzenle</button>
+            </div>
+         </div>
+      </div>
+   </div>
+
+
+   <script>
+
+
+
+
+
+
+
+      $(document).ready(function () {
+         getData().then(function (ihalar) {
+            var selectBox = $('<select class="form-select" id="ihalarSelect" name="uav"></select>');
+
+            ihalar.forEach(function (ih) {
+               var option = $('<option></option>').attr('value', ih.uav.id).text(ih.uav.name);
+
+
+               selectBox.append(option);
+            });
+
+            var br = $('<br>');
+            $('#rentForm').append(selectBox);
+            $('#rentForm').append(br);
+            getUsers().then(function (users) {
+               var selectBox = $('<select class="form-select" id="renterSelect" name="renter"></select>');
+
+
+               users.forEach(function (user) {
+                  var option = $('<option></option>').attr('value', user.id).text(user.username);
+
+
+                  selectBox.append(option);
+               });
+
+
+               $('#rentForm').append(selectBox);
+            });
+         });
+      });
+
+      function formatDate(dateString) {
+         var options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', timeZoneName: 'short' };
+         return new Date(dateString).toLocaleString('tr-TR', options);
+      }
+      var ihalar = [];
+      function getData() {
+         return new Promise(function (resolve, reject) {
+            $.ajax({
+               url: "http://3.127.53.229:8000/api/rent/",
+               type: "GET",
+               dataType: "json",
+               success: function (data) {
+                  console.log(data);
+                  resolve(ihalar = data);
+                  var html = "";
+                  for (var a = 0; a < data.length; a++) {
+                     var startDate = formatDate(data[a].start_date);
+                     var endDate = formatDate(data[a].end_date);
+                     html += "<tr>";
+                     html += "<td>" + data[a].uav.name + "</td>";
+                     html += "<td>" + data[a].uav._model + "</td>";
+                     html += "<td>" + data[a].renter.username + "</td>";
+                     html += "<td>" + startDate + "</td>";
+                     html += "<td>" + endDate + "</td>";
+                     html += "<td><button class='btn btn-danger' onclick='deleteIha(" + data[a].id + ")'>Sil</button></td>";
+                     html += "<td><button class='btn btn-primary' onclick='openKiralaModal(" + data[a].id + ")'>Duzenle</button></td>";
+                     html += "</tr>";
+                  }
+                  $("#ihalarTable tbody").html(html);
+
+                  new DataTable('#ihalarTable', {
+                     language: {
+                        url: 'https://cdn.datatables.net/plug-ins/1.10.25/i18n/Turkish.json'
+                     },
+
+
+
+                  });
+               }
+
+            });
+
+         });
+      }
+
+      function getUsers() {
+         return new Promise(function (resolve, reject) {
+            $.ajax({
+               url: "http://3.127.53.229:8000/api/user/",
+               type: "GET",
+               dataType: "json",
+               success: function (data) {
+                  resolve((users = data));
+                  console.log(users);
+               },
+               error: function (error) {
+                  reject("Hata:", error);
+               },
+            });
+         });
+      }
+
+
+      function openKiralaModal(id) {
+         $("#kiralaModal").modal("show");
+         $("#kiralaModalSubmitBtn").attr("onclick", "submitRentForm(" + id + ")");
+
+         var ih = ihalar.find((ih) => ih.id == id);
+         var start_date = ih.start_date;
+         var startDate = start_date.split("+");
+         var end_date = ih.end_date;
+         var endDate = end_date.split("+");
+         console.log(startDate[0]);
+         $('#startDate').val(startDate[0]);
+         $('#endDate').val(endDate[0]);
+
+         var selected = ihalar.find((ih) => ih.id == id).uav.id;
+         var selectedRenter = ihalar.find((ih) => ih.id == id).renter.id;
+
+         $("#renterSelect").val(selectedRenter);
+         $("#ihalarSelect").val(selected);
+
+      }
+
+      function submitRentForm(id) {
+         var formData = $("#rentForm").serializeArray();
+         var jsonData = {};
+         $.each(formData, function () {
+            console.log(this.name);
+            if (this.name == "uav") {
+               jsonData[this.name] = parseInt(this.value);
+            } else {
+               jsonData[this.name] = this.value;
+            }
+         });
+
+         $.ajax({
+            url: "http://3.127.53.229:8000/api/rent/?id=" + id,
+            type: "PUT",
+            contentType: "application/json",
+            data: JSON.stringify(jsonData),
+            success: function (response) {
+               $("#kiralaModal").modal("hide");
+               getData();
+
+
+
+            },
+            error: function (error) {
+               console.log("Hata:", error);
+
+            },
+         });
+      }
+
+      function deleteIha(id) {
+         Swal.fire({
+            title: 'Emin misiniz?',
+            text: 'Bu kaydı silmek istediğinizden emin misiniz?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Evet, sil',
+            cancelButtonText: 'İptal'
+         }).then((result) => {
+            if (result.isConfirmed) {
+               // Kullanıcı Evet'i seçtiğinde AJAX isteğini gönder
+               $.ajax({
+                  url: "http://3.127.53.229:8000/api/rent/?id=" + id,
+                  type: "DELETE",
+                  success: function (response) {
+
+                     location.reload();
+                     getData();
+                  },
+                  error: function (error) {
+                     console.log("Hata:", error);
+                  },
+               });
+            }
+         });
+      }
+
+
+   </script>
+
+</body>
+
+</html>

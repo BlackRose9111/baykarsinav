@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./loginPage.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="./loginPage.js"></script>
+  <title>Giriş Yap</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="title">Giriş Yap</div>
+    <form action="#">
+      <div class="userdetails">
+
+        <div class="inputbox">
+          <span class="details">Kullanıcı Adı</span>
+          <input type="text" name="username" required>
+        </div>
+
+
+        <div class="inputbox">
+          <span class="details">Şifre</span>
+          <input id="password" type="password" name="password" required>
+
+        </div>
+        <div id="showPass">
+          <input id="passVisibly" type="checkbox" onclick="showPassword()">
+          <p id="passLabel">Şifreyi Göster</p>
+        </div>
+
+
+
+      </div>
+
+      <div class="button">
+        <input type="button" id="loginButton" value="Giriş Yap">
+      </div>
+    </form>
+    <label for="">
+      Hesabınız yok mu? <a href="../registerPage/registerPage.html">Kayıt Ol</a>
+    </label>
+  </div>
+
+  <script>
+    $('#loginButton').click(function () {
+      var username = $('input[name="username"]').val();
+      var password = $('input[name="password"]').val();
+      $.ajax({
+        type: "POST",
+        url: "http://3.127.53.229:8000/api/login/",
+        data: { username: username, password: password },
+        success: async function (data) {
+
+          if (data.message == "success") {
+            localStorage.setItem("token", data.token);
+            window.location.href = "../ihaYonetimi/ihaYonetimi.html";
+
+          }
+          else {
+            alert("Kullanıcı adı veya şifre hatalı");
+          }
+
+
+
+        }
+      });
+    });
+
+  </script>
+</body>
+
+</html>
