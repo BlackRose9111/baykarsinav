@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from . import models
 class UavSerializer(serializers.ModelSerializer):
 
-    category = serializers.StringRelatedField(many=False,read_only=True)
+    category = serializers.PrimaryKeyRelatedField(read_only=True, many=False)
     class Meta:
         model = models.UAV
         fields = '__all__'

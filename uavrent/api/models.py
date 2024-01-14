@@ -7,12 +7,7 @@ class UAVCategory(models.Model):
     description = models.TextField(null=True, blank=True)
     def __str__(self):
         #return the object as a full json
-        obj = str({
-            "id": self.id,
-            "name": self.name,
-            "description": self.description
-        })
-        return obj
+        return self.name
     #these are the basic fields for a UAV category model, we will hold the UAV information in another model and form a relationship between the two
 
 
