@@ -219,7 +219,7 @@ def register(request):
     serializer = serializers.UserSerializerWithPassword(data=request.data)
     if serializer.is_valid():
         serializer.save()
-        return RestResponse.Response(serializer.data)
+        return RestResponse.Response({"message": "success", "data": serializer.data})
     else:
         return RestResponse.Response(serializer.errors)
 
