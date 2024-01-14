@@ -10,6 +10,12 @@ class UAVCategory(models.Model):
         obj = str(dict(self))
     #these are the basic fields for a UAV category model, we will hold the UAV information in another model and form a relationship between the two
 
+    def __dict__(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "description": self.description
+        }
 
 class UAV(models.Model):
     name = models.CharField(max_length=100)
