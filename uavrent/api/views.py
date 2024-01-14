@@ -173,11 +173,13 @@ def rent(request, *args, **kwargs):
 
 
 @api_view(["GET"])
-def user(request, id : int):
-    #we only get one user by id
-    user = User.objects.get(id=id)
-    serializer = serializers.UserSerializer(user)
+def user(request):
+    #get all users
+    users = User.objects.all()
+    serializer = serializers.UserSerializer(users, many=True)
     return RestResponse.Response(serializer.data)
+
+
 
 
 @api_view(["POST"])
