@@ -120,6 +120,28 @@ id: Integer <br>
 
 If no Id is provided, it will return all objects <br>
 
+## PUT
+
+### Query Paramemters
+
+id: Integer* <br>
+
+### Body
+
+Body has to be application/json. All fields that contain * are required.
+
+### Fields
+
+name: string*
+description: string
+
+## DELETE
+
+### Query Paramemters
+
+id: Integer* <br>
+
+
 ### This syntax applies to all endpoints except User
 
 
