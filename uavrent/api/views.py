@@ -54,9 +54,11 @@ def uav(request, *args, **kwargs):
         uav = models.UAV.objects.get(id=params.get("id"))
         #edit the uav
         serializer = serializers.UavSerializerWithCategoryAsPrimaryKey(uav, data=request.data)
-        print(request.data)
-        print(serializer.data)
+
         if serializer.is_valid():
+
+            print(serializer.validated_data)
+            print(request.data)
             serializer.save()
             return RestResponse.Response(serializer.data)
         else:
