@@ -146,7 +146,7 @@ def rent(request, *args, **kwargs):
                 serializer = serializers.RentSerializer(rents, many=True)
                 return RestResponse.Response(serializer.data)
         case "POST":
-            serializer = serializers.RentSerializer(data=request.data)
+            serializer = serializers.RentSerializerWithPrimaryKey(data=request.data)
             if serializer.is_valid():
                 serializer.save()
                 return RestResponse.Response(serializer.data)
@@ -154,7 +154,7 @@ def rent(request, *args, **kwargs):
                 return RestResponse.Response(serializer.errors)
         case "PUT":
             rent = models.Rent.objects.get(id=params.get("id"))
-            serializer = serializers.RentSerializer(rent, data=request.data)
+            serializer = serializers.RentSerializerWithPrimaryKey(rent, data=request.data)
             if serializer.is_valid():
                 serializer.save()
                 return RestResponse.Response(serializer.data)

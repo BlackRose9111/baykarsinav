@@ -34,3 +34,8 @@ class RentSerializer(serializers.ModelSerializer):
         model = models.Rent
         fields = '__all__'
 
+
+class RentSerializerWithPrimaryKey(serializers.ModelSerializer):
+    class Meta:
+        model = models.Rent
+        fields = '__all__'
