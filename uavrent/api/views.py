@@ -52,7 +52,10 @@ def uav(request, *args, **kwargs):
     #put can be used for updating existing
     elif request.method == "PUT":
         uav = models.UAV.objects.get(id=params.get("id"))
-        serializer = serializers.UavSerializer(uav, data=request.data)
+        #edit the uav
+        serializer = serializers.UavSerializerWithCategoryAsPrimaryKey(uav, data=request.data)
+        print(request.data)
+        print(serializer.data)
         if serializer.is_valid():
             serializer.save()
             return RestResponse.Response(serializer.data)
