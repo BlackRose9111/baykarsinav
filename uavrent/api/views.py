@@ -168,6 +168,34 @@ def rent(request, *args, **kwargs):
             return RestResponse.Response({"message": "Method not allowed."})
 
 
+@api_view(["GET"])
+def filter_rent(request):
+    #filter by user, uav, start date, end date
+    query_params = request.query_params
+    from django.db.models import Q
+    username = query_params.get("username")
+    uav_name = query_params.get("uav_name")
+    start_date = query_params.get("start_date")
+    end_date = query_params.get("end_date")
+    filter_name_query = Q()
+    filter_query = Q()
+    if username is not None:
+        filter_query = filter_name_query & Q(renter__username=username)
+    if uav_name is not None:
+        filter_query = filter_name_query | Q(uav__name=uav_name)
+    filter_query = filter_query & filter_name_query
+    if start_date is not None:
+        filter_query = filter_query & Q(start_date__gte=start_date)
+    if end_date is not None:
+        filter_query = filter_query & Q(end_date__lte=end_date)
+    rents = models.Rent.objects.filter(filter_query)
+    serializer = serializers.RentSerializer(rents, many=True)
+    return RestResponse.Response(serializer.data)
+
+
+
+
+
 
 
 
@@ -184,7 +212,6 @@ def user(request):
 
 @api_view(["POST"])
 def register(request):
-    #we only get one user by id
     serializer = serializers.UserSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
