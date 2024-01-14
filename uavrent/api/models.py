@@ -6,8 +6,10 @@ class UAVCategory(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
     def __str__(self):
-        return self.name
+        #return the object as a full json
+        obj = str(dict(self))
     #these are the basic fields for a UAV category model, we will hold the UAV information in another model and form a relationship between the two
+
 
 class UAV(models.Model):
     name = models.CharField(max_length=100)
