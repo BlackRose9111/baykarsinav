@@ -25,6 +25,8 @@ SECRET_KEY = 'django-insecure-42z2ameicxgrm0cxrz%!u+28os48luf-&()8)t4^obpg(0794^
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    "*",
+    "http://127.0.0.1/",
     '0.0.0.0',
     'localhost',
     "3.127.53.229"
@@ -50,7 +52,6 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -95,11 +96,30 @@ WSGI_APPLICATION = 'uavrent.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+#for remote access I used mariadb for the demonstration because I am more experienced with mariadb and its User and Auth System
 DATABASES = {
-    'default': {
+    "default": {
+        "ENGINE" : "django.db.backends.mysql",
+        "HOST" : "blackrosebaran.org",
+        "NAME" : "Baykar",
+        "USER" : "baykar",
+        "PASSWORD" : "Q1LQn_m-!M5wQf8K", #password should not be exposed like this, this is only a demonstration project
+        "PORT" : "3306",
+
+    },
+
+    'sqlite': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    },
+    "postgres": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "uavrent",
+        "USER": "uavrent",
+        "PASSWORD": "uavrent",
+        "HOST": "localhost",
+        "PORT": "5432",
+    },
 }
 
 # Password validation
