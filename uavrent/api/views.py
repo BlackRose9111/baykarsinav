@@ -8,6 +8,8 @@ from . import models, serializers,auth
 from django.contrib.auth.models import User
 
 
+
+@api_view(["GET"])
 def api_home(request, *args, **kwargs):
     return JsonResponse({"name": "UAVRent API", "version": "0.0.1"})
 
@@ -227,7 +229,7 @@ def login(request):
     user = authenticate(username=username, password=password)
     if user is not None:
         token = auth.generate_jwt_token(user)
-        return RestResponse.Response({"token": token})
+        return RestResponse.Response({"token": token,"message": "success"})
     else:
         return RestResponse.Response({"message": "Invalid credentials."})
 
