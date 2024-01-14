@@ -216,6 +216,7 @@ def user(request):
 def register(request):
     from django.contrib.auth.hashers import make_password
     data = dict(request.data)
+    print(data)
     data["password"] = str(make_password(password=data["password"]))
     serializer = serializers.UserSerializer(data=data)
     if serializer.is_valid():
