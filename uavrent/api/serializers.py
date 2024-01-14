@@ -2,12 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 
 from . import models
-class UavSerializer(serializers.ModelSerializer):
 
-    category = serializers.PrimaryKeyRelatedField(read_only=True, many=False)
-    class Meta:
-        model = models.UAV
-        fields = '__all__'
 
 class UavSerializerWithCategoryAsPrimaryKey(serializers.ModelSerializer):
         class Meta:
@@ -24,6 +19,13 @@ class UserSerializer(serializers.ModelSerializer):
         #default user model
         model = User
         fields = ['id', 'username', "email"]
+
+class UavSerializer(serializers.ModelSerializer):
+
+    category = UavCategorySerializer(read_only=True, many=False)
+    class Meta:
+        model = models.UAV
+        fields = '__all__'
 
 class RentSerializer(serializers.ModelSerializer):
     renter  = UserSerializer(many=False)
